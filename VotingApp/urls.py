@@ -21,6 +21,7 @@ from apps.home.views import index
 from apps.vote.views import results
 
 urlpatterns = [
+    path("login/", include("apps.login.urls")),
     path("", index),
     path("vote/", include("apps.vote.urls")),
     path("results", results),
