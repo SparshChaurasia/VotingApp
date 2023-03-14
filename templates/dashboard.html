@@ -86,7 +86,7 @@
                             </tbody>
                         </table>
                     {% endif %}
-                    <form action="/dashboard" method="post" class="mt-4 px-4 py-3 w-100 d-flex justify-content-between align-items-center border border-dark border-2 rounded rounded-3" style="background-color: #D3D3D3;">
+                    <form action="/dashboard" method="post" class="mt-4 px-4 py-3 w-100 d-flex justify-content-between align-items-center bg-secondary text-white rounded ronded-3">
                         {% csrf_token %}
                         <div>
                             <label for="class" class="h5 my-0">Select Class</label>
@@ -103,7 +103,7 @@
                             </select>
                         </div>
                         <div class="mt-1">
-                            <button class="btn btn-secondary">Submit</button>
+                            <button class="btn btn-primary">Submit</button>
                         </div>
                     </form>
                 </div>
