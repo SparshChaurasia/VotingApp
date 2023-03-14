@@ -1,3 +1,34 @@
 from django.db import models
 
-# Create your models here.
+
+class Classes(models.TextChoices):
+    _9A = "9A"
+    _9B = "9B"
+    _10A = "10A"
+    _10B = "10B"
+    _11A = "11A"
+    _11B = "11B"
+    _11C = "11C"
+    _12A = "12A"
+    _12B = "12B"
+
+class Event(models.Model):
+    EventID = models.AutoField(primary_key=True)
+    Date = models.DateField()
+    EventName = models.TextField() 
+
+class Category(models.Model):
+    CategoryName = models.TextField()
+
+class Option(models.Model):
+    OptionID = models.AutoField(primary_key=True)
+    OptionEvent = models.ForeignKey(Event, on_delete=models.CASCADE)
+    OpitonCategory = models.ForeignKey(Category, on_delete=models.CASCADE)
+    OptionName = models.TextField()
+    Votes = models.IntegerField()
+
+class Student(models.Model):
+    StudentID = models.CharField(max_length=8)
+    Name = models.TextField() 
+    Class = models.CharField(max_length=3, choices=Classes.choices)
+    Voted = models.BooleanField(default=False)
