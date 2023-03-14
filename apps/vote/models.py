@@ -17,18 +17,31 @@ class Event(models.Model):
     Date = models.DateField()
     EventName = models.TextField() 
 
+    def __str__(self):
+        return self.EventName
+    
+
 class Category(models.Model):
     CategoryName = models.TextField()
+ 
+    def __str__(self):
+        return self.CategoryName   
 
 class Option(models.Model):
     OptionID = models.AutoField(primary_key=True)
     OptionEvent = models.ForeignKey(Event, on_delete=models.CASCADE)
     OpitonCategory = models.ForeignKey(Category, on_delete=models.CASCADE)
     OptionName = models.TextField()
-    Votes = models.IntegerField()
+    Votes = models.IntegerField(default=0)
+
+    def __str__(self):
+        return self.OptionName
 
 class Student(models.Model):
     StudentID = models.CharField(max_length=8)
     Name = models.TextField() 
     Class = models.CharField(max_length=3, choices=Classes.choices)
     Voted = models.BooleanField(default=False)
+    
+    def __str__(self):
+        return self.Name
