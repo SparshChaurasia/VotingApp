@@ -18,12 +18,13 @@ from django.contrib import admin
 from django.urls import include, path
 
 from apps.home.views import index
-from apps.vote.views import results
+from apps.vote.views import results, dashboard
 
 urlpatterns = [
     path("login/", include("apps.login.urls")),
     path("", index),
-    path("vote/", include("apps.vote.urls")),
     path("results", results),
+    path("dashboard", dashboard),
+    path("vote/", include("apps.vote.urls")),
     path("admin/", admin.site.urls)
 ]

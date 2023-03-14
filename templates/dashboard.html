@@ -1,0 +1,141 @@
+{% extends 'bases/base.html' %}
+{% block title %}Profile{% endblock title %}
+{% load humanize %}
+{% load static %}
+{% block content %}
+<div class="page">
+    <div class="conatainer">
+        <div class="row">
+            <div class="col">
+                <div>
+                    <i class="fa-solid fa-user fa-4x"></i>
+                    <p class="mt-3 h3 fw-bold mb-0">{{request.user.get_full_name}}</p>
+                    <p class="text-muted">@{{ user }}</p>
+                    <p class="text-muted">Last login {{ user.last_login|naturaltime }}</p>
+                </div>
+                <hr>
+                <div class="mt-4">
+                    <p class="h4">Details <i class="fa-solid fa-pencil"></i></p>
+                    <table class="table table-borderless">
+                        <tbody>
+                            <tr>
+                                <th class="text-muted">Email</th>
+                                <td class="text-primary">{{ user.email }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-muted">Status</th>
+                                <td class="text-primary">
+                                    {% if user.is_superuser %}
+                                        <span>superuser</span>
+                                    {% elif user.is_admin %}
+                                        <span>admin</span>
+                                    {% else %}
+                                        <span>user</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="text-muted">Joined</th>
+                                <td class="text-primary">{{ user.date_joined }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4">
+                    <span class="fw-bold h5">Tags <i class="fa-solid fa-arrow-right"></i></span>
+                    <p>
+                        {% if user.groups.all  %}
+                        {% for g in user.groups.all %}
+                        <span>{{ g }}</span>
+                        {% endfor %}
+                        {% else %}
+                        <span>No tags</span>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+            <div class="col-6">
+                <div>
+                    <p class="h3 fw-bold">Ongoing Events</p>
+                    <div class="list-group">
+                        {% for event in events %}
+                            <a href="/vote" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true">
+                              <span>{{ event.EventName }}</span> 
+                              <span class="badge bg-primary rounded-pill">{{ event.Date }}</span>
+                            </a>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="mt-5">
+                    <p class="h3 fw-bold">See Status</p>
+                    {% if class %}
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                <th scope="col">Total</th>
+                                <th scope="col">Voted</th>
+                                <th scope="col">Remaining</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ total }}</td>
+                                    <td>{{ voted }}</td>
+                                    <td>{{ not_voted }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    {% endif %}
+                    <form action="/dashboard" method="post" class="mt-4 px-4 py-3 w-100 d-flex justify-content-between align-items-center border border-dark border-2 rounded rounded-3" style="background-color: #D3D3D3;">
+                        {% csrf_token %}
+                        <div>
+                            <label for="class" class="h5 my-0">Select Class</label>
+                            <select name="class" id="class">
+                                <option value="9A">9A</option>
+                                <option value="9B">9B</option>
+                                <option value="10A">10A</option>
+                                <option value="10B">10B</option>
+                                <option value="10C">10C</option>
+                                <option value="11A">11A</option>
+                                <option value="11B">11B</option>
+                                <option value="12A">12A</option>
+                                <option value="12B">12B</option>
+                            </select>
+                        </div>
+                        <div class="mt-1">
+                            <button class="btn btn-secondary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col">
+                <div>
+                    <p class="h4 fw-bold">Tasks</p>
+                    <div class="list-group">
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" value="">
+                            First task
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" value="">
+                            Second task
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" value="">
+                            Third task
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" value="">
+                            Fourth task
+                        </label>
+                        <label class="list-group-item">
+                            <input class="form-check-input me-1" type="checkbox" value="">
+                            Fifth task
+                        </label>
+                    </div>
+                </div>
+                <img src="{% static 'images/pro1.png' %}" alt="placeholder image" style="width: 30rem; height: auto;">
+            </div>
+        </div>
+</div>
+{% endblock content %}
