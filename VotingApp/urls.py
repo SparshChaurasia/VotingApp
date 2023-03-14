@@ -1,4 +1,5 @@
-"""VotingApp URL Configuration
+"""
+VotingApp URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/4.1/topics/http/urls/
@@ -14,11 +15,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 
-from apps.home import views
+from apps.home.views import index
+from apps.vote.views import results
 
 urlpatterns = [
-    path("", views.index),
+    path("", index),
+    path("vote/", include("apps.vote.urls")),
+    path("results", results),
     path("admin/", admin.site.urls)
 ]
