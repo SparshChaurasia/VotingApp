@@ -3,6 +3,59 @@
 {% block title %}Home{% endblock title %}
 {% block content %}
 <div class="page">
-    <h3>This is homepage.</h3>
+    <div class="d-flex">
+        <div style="min-width: 50%;">
+            <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+            </div>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                <img src="{% static 'images/vote1.jpg' %}" style="height: auto; max-width: 100%;" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Online & Transparent</h5>
+                    <p>All voting records are paper free and transparent.</p>
+                </div>
+                </div>
+                <div class="carousel-item">
+                <img src="{% static 'images/vote2.jpg' %}" style="height: auto; max-width: 100%;" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Convinent to use</h5>
+                    <p>Easy teachers as well as for stdents to operate the system.</p>
+                </div>
+                </div>
+                <div class="carousel-item">
+                <img src="{% static 'images/vote4.jpg' %}" style="height: auto; max-width: 100%;" alt="...">
+                <div class="carousel-caption d-none d-md-block">
+                    <h5>Time Saving</h5>
+                    <p>Automates most of the tasks saving valuable school time</p>
+                </div>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        </div>
+        <div class="d-inline mx-5">
+            <p class="h3 fw-bold">Hey there 👋, welcomne back!</p>
+            <p class="mt-4">Welcome to the Aditya Birla Public School voting portal! This portal provides a platform for our school community to cast their votes on important issues, such as the school budget, student council elections, and more. We are proud to offer an easy-to-use, secure system that ensures accurate, transparent results.</p>
+            
+            <p class="fw-bold mt-4">Voting is an important part of our school's democratic process. By casting our votes, we can show our support for initiatives, programs, measures, and changes that will benefit our school and our community. Voting gives everyone an equal voice in decision-making.</p>
+            <hr>
+            
+            <div class="mt-5">
+                <h4>Start voting now!</h4>
+                <a href="/vote" class="btn btn-outline-primary btn-lg" role="button">Voting Page</a>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock content %}
