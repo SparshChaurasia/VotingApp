@@ -6,7 +6,11 @@ from .models import Event, Student
 
 @login_required(login_url="/login")
 def index(request):
-    return render(request, "vote.html")
+    events = Event.objects.all()
+    params = {
+        "events": events,
+    }
+    return render(request, "vote.html", params)
 
 @login_required(login_url="/login")
 def results(request):
