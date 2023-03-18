@@ -13,6 +13,18 @@ def index(request):
     return render(request, "vote.html", params)
 
 @login_required(login_url="/login")
+def event(request, event):
+    event_pages = {
+        # event_name: event_page
+    }
+    event_page = event_pages.get(event, "events/event.html")
+
+    params = {
+        "event": event,
+    }
+    return render(request, event_page, params)
+
+@login_required(login_url="/login")
 def results(request):
     return render(request, "results.html")
 
