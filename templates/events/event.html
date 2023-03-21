@@ -12,7 +12,7 @@
     <div class="container" style="margin: 0;">
         <div class="row">
             <div class="col">
-                <div>
+                <div style="position: sticky; top: 5rem;">
                     <img src="{% static 'images/Voting-bro.svg' %}" alt="voting illustration">
                 </div>  
             </div>
@@ -21,8 +21,8 @@
                     {% csrf_token %}
                     <p class="h3 fw-bold mb-5">{{ event_name }}</p>
                     <div class="form-step form-step-active">
-                        <div class="d-flex justify-content-between">
-                            <div class="w-50">
+                        <div>
+                            <div>
                                 <label for="class" class="form-label fw-bold">Select Class</label>
                                 <select name="class" id="class" class="form-select form-select-lg mb-3">
                                     <option value="9A">9A</option>
@@ -46,36 +46,39 @@
                                     <option value="Chicago">
                                 </datalist>
                             </div>
-                            <div style="border-left: 2px solid black; margin: 0 1rem;"></div> 
-                            <div class="w-50">
-                                <p class="h3 fw-bold mb-3">OR</p>
+                            <div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center; margin: 2rem 0;">
+                                <span style="font-size: 2rem; background-color: #F3F5F6; padding: 0 10px; font-weight: bold;">
+                                    OR
+                                </span>
+                            </div>
+                            <div>
                                 <label for="s_id" class="form-label fw-bold">Enter Student Id</label>
                                 <input class="form-control form-control-lg" type="text" placeholder="eg- WIDXXXX" id="s_id" name="s_id">
                             </div>
                         </div>
                         <div class="mt-3">
                             {% comment %} <button type="button" onclick="prevFormStep()" class="btn btn-secondary">Previous</button> {% endcomment %}
-                            <button type="button" onclick="nextFormStep()" class="btn btn-primary">Next</button>
+                            <button type="button" onclick="nextFormStep()" class="btn btn-primary btn-lg">Next</button>
                         </div>
                     </div>
                     <div class="form-step">
                         {% for category in categorys %}
-                            <div class="form-check form-check-inline">
+                            <div style="background-color: #E5DCCD; border-radius: 1.5rem; margin-bottom: 2rem; padding: 3rem;">
                                 <p class="h4 fw-bold">{{ category.CategoryName }}</p>
+                                <hr>
                                 {% for option in options %}
                                     {% if option.OpitonCategory == category %}
-                                        <div class="form-check form-check-inline">
+                                        <div class="form-check" style="padding: 1rem 2.5rem; border-radius: 0.5rem; background-color: #F8F9FA; margin-bottom: 1rem;">
                                             <input class="form-check-input" type="radio" name="{{ category.CategoryName }}" value="{{ option.OptionID }}">
                                             <label class="form-check-label">{{ option.OptionName }}</label>
                                         </div>
                                     {% endif %}
                                 {% endfor %}
                             </div>
-                            <hr>
                         {% endfor %}
                         <div class="mt-3">
-                            <button type="button" onclick="prevFormStep()" class="btn btn-secondary">Previous</button>
-                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button type="button" onclick="prevFormStep()" class="btn btn-secondary btn-lg">Previous</button>
+                            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                         </div>
                     </div>
                 </form>
