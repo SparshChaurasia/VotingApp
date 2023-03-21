@@ -5,30 +5,20 @@ from .models import Event, Student, Option, Category
 
 
 @login_required(login_url="/login")
-def index(request):
+def vote(request):
     events = Event.objects.all()
+    # event = Event.objects.get(EventName=event_name)
+    # categorys = Category.objects.filter(Event=event)
+    # options = Option.objects.filter(OptionEvent=event)
+
     params = {
         "events": events,
+        # "event_name": event_name,
+        # "categorys": categorys,
+        # "options": options
     }
     return render(request, "vote.html", params)
 
-@login_required(login_url="/login")
-def event(request, event_name):
-    event_pages = { # custom event pages
-        # event_name: event_page
-    }
-    event_page = event_pages.get(event_name, "events/event.html") # default event page
-
-    event = Event.objects.get(EventName=event_name)
-    categorys = Category.objects.filter(Event=event)
-    options = Option.objects.filter(OptionEvent=event)
-
-    params = {
-        "event_name": event_name,
-        "categorys": categorys,
-        "options": options
-    }
-    return render(request, event_page, params)
 
 @login_required(login_url="/login")
 def results(request):
