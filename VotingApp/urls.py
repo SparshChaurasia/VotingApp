@@ -25,7 +25,7 @@ urlpatterns = [
     path("", index),
     path("dashboard", dashboard),
     path("results", results),
+    path("vote", vote),
     path("<str:event_name>", event),
-    path("vote/", vote),
     path("admin/", admin.site.urls)
 ]

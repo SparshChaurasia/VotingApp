@@ -6,18 +6,24 @@ from .models import Event, Student, Option, Category
 
 @login_required(login_url="/login")
 def vote(request):
-    events = Event.objects.all()
-    # event = Event.objects.get(EventName=event_name)
-    # categorys = Category.objects.filter(Event=event)
-    # options = Option.objects.filter(OptionEvent=event)
+    event_name = request.GET.get("event_name")
+    if event_name == None:
+        events = Event.objects.all()
 
+        params = {
+            "events": events
+        }
+        return render(request, "vote/vote_event.html", params)
+
+    event = Event.objects.get(EventName=event_name)
+    categorys = Category.objects.filter(Event=event)
+    options = Option.objects.filter(OptionEvent=event)
     params = {
-        "events": events,
-        # "event_name": event_name,
-        # "categorys": categorys,
-        # "options": options
+        "event_name": event_name,
+        "categorys": categorys,
+        "options": options
     }
-    return render(request, "vote.html", params)
+    return render(request, "vote/vote.html")
 
 
 @login_required(login_url="/login")
