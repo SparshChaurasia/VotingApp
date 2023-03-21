@@ -23,7 +23,7 @@ def vote(request):
         "categorys": categorys,
         "options": options
     }
-    return render(request, "vote/vote.html")
+    return render(request, "vote/vote.html", params)
 
 
 @login_required(login_url="/login")
