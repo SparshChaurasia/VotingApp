@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, HttpResponse
 
 from .models import Event, Student, Option, Category
 
@@ -20,11 +20,47 @@ def vote(request, event_name):
     options = Option.objects.filter(OptionEvent=event)
     
     params = {
-        "event_name": event_name,
+        "event": event,
         "categorys": categorys,
         "options": options
     }
     return render(request, "vote/form.html", params)
+
+@login_required(login_url="/login")
+def submit(request):
+    if request.method != "POST":
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Invalid request method</h4>"""
+        )
+
+    s_id = request.POST.get("s_id")
+    s_name = request.POST.get("name").upper()
+    s_class = request.POST.get("class")
+
+    event_id = int(request.POST.get("event_id"))
+    event = Event.objects.get(EventID=event_id)
+    categories = Category.objects.filter(Event=event)
+
+    if s_id:
+        student = Student.objects.get(StudentID=s_id)
+    else:
+        student = Student.objects.filter(Class=s_class).get(Name=s_name)
+    
+    if student.has_voted(event_id):
+        # TODO: Send error notification to the client using Django messaging framework
+        return HttpResponse("Already Voted")
+
+
+    for category in categories:
+        option_id = request.POST.get(category.CategoryName)
+        option = Option.objects.get(OptionID=option_id)
+        option.vote()
+    
+    student.voted(event_id)
+
+    return HttpResponse("OK")
+
 
 
 @login_required(login_url="/login")

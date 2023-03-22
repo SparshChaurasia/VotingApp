@@ -39,6 +39,7 @@ class Option(models.Model):
 
     def vote(self):
         self.Votes += 1
+        self.save()
 
     def __str__(self):
         return self.OptionName
@@ -50,12 +51,13 @@ class Student(models.Model):
     Voted = models.TextField(default="{}")
 
     def voted(self, event_id):
-        v = eval(self.Voted())
+        v = eval(self.Voted)
         v[event_id] = str(datetime.now())
         self.Voted = str(v)
+        self.save()
 
     def has_voted(self, event_id):
-        v = eval(self.Voted())
+        v = eval(self.Voted)
         return True if v.get(event_id) else False
 
     def __str__(self):
