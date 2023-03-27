@@ -17,8 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from apps.home.views import index, event
-from apps.vote.views import results, dashboard, vote
+from apps.home.views import index, event, dashboard
+from apps.vote.views import results, vote
 
 urlpatterns = [
     path("login/", include("apps.login.urls")),
