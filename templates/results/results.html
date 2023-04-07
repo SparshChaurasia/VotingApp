@@ -1,0 +1,36 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+{% block title %}Results{% endblock title %}
+{% block content %}
+<div class="page">
+    <label for="event_name" class="form-label h3 fw-bold">Events</label>
+    <div>
+        {% for event, value in params.items %}
+            <div class="card">
+              <div class="card-body">
+                <a href="/results/{{ event.EventName }}" class="card-title text-decoration-none d-flex justify-content-between align-items-center" aria-current="true">
+                  <span>{{ event.EventName }}</span> 
+                  {% now "DATE_FORMAT" as today %}
+                  {% if event.Date >= today %}
+                    <span class="badge bg-primary rounded-pill">Ongoing</span>
+                  {% else %}
+                    <span class="badge bg-danger rounded-pill">Ended</span>
+                  {% endif %}
+                </a>
+                <div>
+                  {% for category in value.categorys %}
+                    <span class="badge bg-dark">{{ category }}</span>
+                    {% for option in value.options %}
+                      {% if option.OpitonCategory == category %}
+                        <span class="badge bg-light text-dark">{{ option.OptionName }}</span>
+                      {% endif %}
+                    {% endfor %}
+                    <br>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

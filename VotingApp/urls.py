@@ -18,14 +18,15 @@ from django.contrib import admin
 from django.urls import include, path
 
 from apps.home.views import index, event, dashboard
-from apps.vote.views import results, vote
+from apps.vote.views import results, vote, event_result
 
 urlpatterns = [
     path("login/", include("apps.login.urls")),
     path("", index),
     path("dashboard", dashboard),
-    path("results", results),
     path("<str:event_name>", event),
     path("vote/", include("apps.vote.urls")),
+    path("results/", results),
+    path("results/<str:event_name>", event_result),
     path("admin/", admin.site.urls)
 ]

@@ -48,7 +48,7 @@ def submit(request):
         student = Student.objects.filter(Class=s_class).get(Name=s_name)
     
     if student.has_voted(event_id):
-        # TODO: Send error notification to the client using Django messaging framework
+        # TODO: Send error notification to the frontend using Django messaging framework.
         return HttpResponse("Already Voted")
 
 
@@ -58,12 +58,28 @@ def submit(request):
         option.vote()
     
     student.voted(event_id)
-
+    
+    # TODO: Send success notification to the frontend using Django messaging framework.
     return HttpResponse("OK")
 
 
 
 @login_required(login_url="/login")
 def results(request):
-    return render(request, "results.html")
+    params = {}
 
+    events = Event.objects.all()
+    for event in events:
+        categorys = Category.objects.filter(Event=event)
+        options = Option.objects.filter(OptionEvent=event)
+
+        params[event] = {
+            "categorys": categorys,
+            "options": options
+        }
+    return render(request, "results/results.html", {"params":params})
+
+
+@login_required(login_url="/login")
+def event_result(request, event_name):
+    return render(request, "results/event_result.html")
