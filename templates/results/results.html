@@ -8,21 +8,20 @@
         {% for event, value in params.items %}
             <div class="card">
               <div class="card-body">
-                <a href="/results/{{ event.EventName }}" class="card-title text-decoration-none d-flex justify-content-between align-items-center" aria-current="true">
-                  <span>{{ event.EventName }}</span> 
-                  {% now "DATE_FORMAT" as today %}
-                  {% if event.Date >= today %}
+                <a href="/results/{{ event.EventName }}" class="card-title text-decoration-none" aria-current="true">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span>{{ event.EventName }}</span> 
                     <span class="badge bg-primary rounded-pill">Ongoing</span>
-                  {% else %}
-                    <span class="badge bg-danger rounded-pill">Ended</span>
-                  {% endif %}
+                    {% comment %} <span class="badge bg-danger rounded-pill">Ended</span> {% endcomment %}
+                  </div>
+                  <p class="card-subtitle fw-bold text-muted">{{ event.Date }}</p>
                 </a>
-                <div>
+                <div class="mt-3">
                   {% for category in value.categorys %}
                     <span class="badge bg-dark">{{ category }}</span>
                     {% for option in value.options %}
                       {% if option.OpitonCategory == category %}
-                        <span class="badge bg-light text-dark">{{ option.OptionName }}</span>
+                        &nbsp|&nbsp<span class="badge bg-light text-dark">{{ option.OptionName }}</span>
                       {% endif %}
                     {% endfor %}
                     <br>
