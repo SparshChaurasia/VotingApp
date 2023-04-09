@@ -17,14 +17,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from apps.home.views import index, event, dashboard
-from apps.vote.views import results, vote, event_result
+from apps.home.views import dashboard, index
+# from apps.home.views import index, event, dashboard
+from apps.vote.views import event_result, results, vote
 
 urlpatterns = [
     path("login/", include("apps.login.urls")),
     path("", index),
     path("dashboard", dashboard),
-    path("<str:event_name>", event),
+    # path("<str:event_name>", event),
     path("vote/", include("apps.vote.urls")),
     path("results/", results),
     path("results/<str:event_name>", event_result),
