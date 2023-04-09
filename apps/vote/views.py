@@ -70,16 +70,26 @@ def results(request):
 
     events = Event.objects.all()
     for event in events:
+        params[event] = {}
         categorys = Category.objects.filter(Event=event)
-        options = Option.objects.filter(OptionEvent=event)
-
-        params[event] = {
-            "categorys": categorys,
-            "options": options
-        }
+        for category in categorys:
+            options = Option.objects.filter(OpitonCategory=category)
+            params[event].update({category: options})
     return render(request, "results/results.html", {"params":params})
 
 
 @login_required(login_url="/login")
 def event_result(request, event_name):
-    return render(request, "results/event_result.html")
+    params = {}
+    winners = {}
+
+    event = Event.objects.get(EventName=event_name)
+    categorys = Category.objects.filter(Event=event)
+    for category in categorys:
+        options = Option.objects.filter(OpitonCategory=category).order_by("-Votes")
+        w = options[0]
+        params.update({category: options})
+        winners.update({category: w})
+
+    
+    return render(request, "results/event_result.html", {"params":params, "winners": winners, "event": event})
