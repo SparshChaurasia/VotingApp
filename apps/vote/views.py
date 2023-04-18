@@ -1,7 +1,9 @@
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import HttpResponse, render, redirect
 
-from .models import Event, Student, Option, Category
+from apps.vote import models as v_models
+from .models import Category, Event, Option, Student
 
 
 @login_required(login_url="/login")
@@ -40,17 +42,28 @@ def submit(request):
 
     event_id = int(request.POST.get("event_id"))
     event = Event.objects.get(EventID=event_id)
+    event_name = event.EventName
     categories = Category.objects.filter(Event=event)
 
+    if not s_id or all([s_name, s_class]):
+        messages.warning(request, "Invalid student details.")
+        return redirect(f"/vote/{event_name}")
+
     if s_id:
-        student = Student.objects.get(StudentID=s_id)
+        try:
+            student = Student.objects.get(StudentID=s_id)
+        except v_models.Student.DoesNotExist:
+            messages.warning(request, "Student not found.")
+            return redirect(f"/vote/{event_name}")
     else:
         student = Student.objects.filter(Class=s_class).get(Name=s_name)
-    
-    if student.has_voted(event_id):
-        # TODO: Send error notification to the frontend using Django messaging framework.
-        return HttpResponse("Already Voted")
+        if not student:
+            messages.warning(request, "Student not found.")
+            return redirect(f"/vote/{event_name}")
 
+    if student.has_voted(event_id):
+        messages.warning(request, "Student has already voted once.")
+        return redirect(f"/vote/{event_name}")
 
     for category in categories:
         option_id = request.POST.get(category.CategoryName)
@@ -59,8 +72,8 @@ def submit(request):
     
     student.voted(event_id)
     
-    # TODO: Send success notification to the frontend using Django messaging framework.
-    return HttpResponse("OK")
+    messages.success(request, "Successfully voted.")
+    return redirect(f"/vote/{event_name}")
 
 
 

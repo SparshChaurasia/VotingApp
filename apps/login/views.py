@@ -17,10 +17,9 @@ def login_user(request):
     
     username = request.POST.get("username")
     password = request.POST.get("password")
-
     user = authenticate(request, username=username, password=password)
     if not user:
-        messages.error(request, "User not found")
+        messages.warning(request, "User not found")
         return redirect("/login")
 
     login(request, user)

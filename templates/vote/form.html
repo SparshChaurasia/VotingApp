@@ -9,6 +9,14 @@
 {% endblock javascript %}
 {% block content %}
 <div class="page">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show position-absolute end-0 w-100" role="alert">
+            <i class="fa-sharp fa-solid fa-circle-exclamation"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
     <div class="container" style="margin: 0;">
         <div class="row">
             <div class="col">

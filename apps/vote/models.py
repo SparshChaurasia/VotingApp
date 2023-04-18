@@ -50,6 +50,9 @@ class Student(models.Model):
     Class = models.CharField(max_length=3, choices=Classes.choices)
     Voted = models.TextField(default="{}")
 
+    def __str__(self):
+        return self.Name
+
     def voted(self, event_id):
         v = eval(self.Voted)
         v[event_id] = str(datetime.now())
@@ -60,5 +63,10 @@ class Student(models.Model):
         v = eval(self.Voted)
         return True if v.get(event_id) else False
 
-    def __str__(self):
-        return self.Name
+# class Voted(models.Model):
+#     StudentVote = models.ForeignKey(Student, models.CASCADE)
+#     EventVote = models.ForeignKey(Event, models.CASCADE)
+#     DateTime = models.DateTimeField(auto_now_add=True)
+
+#     def __str__(self):
+#         return self.Name

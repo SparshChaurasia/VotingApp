@@ -2,6 +2,14 @@
 {% load static %}
 {% block title %}Login{% endblock title %}
 {% block content %}
+{% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }} alert-dismissible fade show position-absolute w-100" role="alert">
+        <i class="fa-sharp fa-solid fa-circle-exclamation"></i> {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+{% endif %}
 <div class="vh-100 d-flex align-items-center">
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
