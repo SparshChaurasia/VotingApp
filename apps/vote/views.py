@@ -79,6 +79,12 @@ def submit(request):
 
 @login_required(login_url="/login")
 def results(request):
+    if not request.user.is_superuser:
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Missing required permissions.</h4>"""
+        )
+        
     params = {}
 
     events = Event.objects.all()
@@ -93,6 +99,12 @@ def results(request):
 
 @login_required(login_url="/login")
 def event_result(request, event_name):
+    if not request.user.is_superuser:
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Missing required permissions.</h4>"""
+        )    
+    
     params = {}
     winners = {}
 
