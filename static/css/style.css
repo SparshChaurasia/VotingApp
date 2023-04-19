@@ -1,0 +1,15 @@
+.home__carousel {
+    min-width: 50%;
+    padding-right: 5rem;
+}
+
+.home__carousel--image {
+    height: auto;
+    max-width: 100%;
+}
+
+@media screen and (max-width: 768px) {
+    .home__carousel {
+        display: none;
+    }
+}
