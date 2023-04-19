@@ -19,12 +19,12 @@
     {% endif %}
     <div class="container" style="margin: 0;">
         <div class="row">
-            <div class="col">
-                <div style="position: sticky; top: 5rem;">
+            <div class="col form__image">
+                <div class="form__image--container">
                     <img src="{% static 'images/Voting-bro.svg' %}" alt="voting illustration">
                 </div>  
             </div>
-            <div class="col-6">
+            <div class="col">
                 <form action="{% url 'submit' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="event_id" value={{ event.EventID }}>
@@ -56,8 +56,8 @@
                                     <option value="Chicago">
                                 </datalist>
                             </div>
-                            <div style="width: 100%; height: 20px; border-bottom: 1px solid black; text-align: center; margin: 2rem 0;">
-                                <span style="font-size: 2rem; background-color: #F8F9FA; padding: 0 10px; font-weight: bold;">
+                            <div class="form__divider--container">
+                                <span class="form__divider">
                                     OR
                                 </span>
                             </div>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="form-step">
                         {% for category in categorys %}
-                            <div style="border: 2px solid black; background-color: #E5DCCD; border-radius: 1.5rem; margin-bottom: 2rem; padding: 3rem;">
+                            <div class="form__category-wrapper">
                                 <p class="h4 fw-bold">{{ category.CategoryName }}</p>
                                 <hr>
                                 {% for option in options %}
