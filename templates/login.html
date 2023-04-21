@@ -1,6 +1,9 @@
 {% extends 'bases/main.html' %}
 {% load static %}
 {% block title %}Login{% endblock title %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
+{% endblock stylesheets %}
 {% block content %}
 {% if messages %}
     {% for message in messages %}
@@ -10,10 +13,10 @@
     </div>
     {% endfor %}
 {% endif %}
-<div class="vh-100 d-flex align-items-center">
+<div class="vh-100 d-flex align-items-center login__container">
   <div class="container-fluid h-custom">
     <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-md-9 col-lg-6 col-xl-5">
+      <div class="col-md-9 col-lg-6 col-xl-5 login__image">
         <img src="{% static 'images/Voting-amico.svg' %}"
           class="img-fluid" alt="Sample image">
       </div>

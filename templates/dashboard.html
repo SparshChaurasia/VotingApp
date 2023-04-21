@@ -2,6 +2,9 @@
 {% block title %}Dashboard{% endblock title %}
 {% load humanize %}
 {% load static %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock stylesheets %}
 {% block content %}
 <div class="page">
     <div class="conatainer">
@@ -159,7 +162,7 @@
                         </label>
                     </div>
                 </div>
-                <img src="{% static 'images/pro1.png' %}" alt="placeholder image" style="width: 30rem; height: auto;">
+                <img class="dashboard__image" src="{% static 'images/pro1.png' %}" alt="placeholder image">
             </div>
         </div>
 </div>

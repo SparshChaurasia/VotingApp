@@ -1,0 +1,10 @@
+.dashboard__image {
+    width: 30rem;
+    height: auto;
+}
+
+@media screen and (max-width: 768px) {
+    .dashboard__image {
+        display: none;
+    }
+}
