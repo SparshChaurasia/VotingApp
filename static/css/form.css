@@ -29,6 +29,13 @@
     padding: 3rem;
 }
 
+.form__category {
+    padding: 1rem 2.5rem;
+    border-radius: 0.5rem;
+    background-color: #F8F9FA;
+    margin-bottom: 1rem;
+}
+
 .form__image--container {
     position: sticky;
     top: 5rem;

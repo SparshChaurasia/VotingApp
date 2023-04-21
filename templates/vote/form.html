@@ -78,7 +78,7 @@
                                 <hr>
                                 {% for option in options %}
                                     {% if option.OpitonCategory == category %}
-                                        <div class="form-check" style="padding: 1rem 2.5rem; border-radius: 0.5rem; background-color: #F8F9FA; margin-bottom: 1rem;">
+                                        <div class="form-check form__category">
                                             <input class="form-check-input" type="radio" name="{{ category.CategoryName }}" value="{{ option.OptionID }}">
                                             <label class="form-check-label">{{ option.OptionName }}</label>
                                         </div>
