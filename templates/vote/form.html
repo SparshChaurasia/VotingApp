@@ -6,6 +6,7 @@
 {% endblock stylesheets %}
 {% block javascript %}
 <script src="{% static 'js/form.js' %}" defer></script>
+<script src="{% static 'js/ajax.js' %}"></script>
 {% endblock javascript %}
 {% block content %}
 <div class="page">
@@ -39,9 +40,9 @@
                                     <option value="9B">9B</option>
                                     <option value="10A">10A</option>
                                     <option value="10B">10B</option>
-                                    <option value="10C">10C</option>
                                     <option value="11A">11A</option>
                                     <option value="11B">11B</option>
+                                    <option value="11C">11C</option>
                                     <option value="12A">12A</option>
                                     <option value="12B">12B</option>
                                 </select>
@@ -63,11 +64,24 @@
                             </div>
                             <div>
                                 <label for="s_id" class="form-label fw-bold">Enter Student Id</label>
-                                <input class="form-control form-control-lg" type="text" placeholder="eg- WIDXXXX" id="s_id" name="s_id">
+                                <input class="form-control form-control-lg" id="id" type="text" placeholder="eg- WIDXXXX" id="s_id" name="s_id">
                             </div>
                         </div>
                         <div class="mt-3">
                             {% comment %} <button type="button" onclick="prevFormStep()" class="btn btn-secondary">Previous</button> {% endcomment %}
+                            <button type="button" onclick="nextFormStep()" class="btn btn-primary btn-lg" id="nextBtn">Next</button>
+                        </div>
+                    </div>
+                    <div class="form-step">
+                        <p class="h4 fw-bold mb-5">Verify Student Details</p>
+                        <p class="h5 fw-bold">Name</p>
+                        <p id="nameContainer"></p>
+                        <p class="h5 fw-bold">Class</p>
+                        <p id="classContainer"></p>
+                        <p class="h5 fw-bold">WID</p>
+                        <p id="idContainer"></p>
+                        <div class="mt-3">
+                            <button type="button" onclick="prevFormStep()" class="btn btn-secondary btn-lg">Previous</button>
                             <button type="button" onclick="nextFormStep()" class="btn btn-primary btn-lg">Next</button>
                         </div>
                     </div>

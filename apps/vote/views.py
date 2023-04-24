@@ -1,10 +1,48 @@
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import HttpResponse, render, redirect
+from django.http import JsonResponse
+from django.shortcuts import HttpResponse, redirect, render
+from django.views.decorators.csrf import csrf_exempt
 
 from apps.vote import models as v_models
+
 from .models import Category, Event, Option, Student
 
+
+@csrf_exempt
+def get_student_details(request):
+    if request.method != "POST":
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Invalid request method</h4>"""
+        ) 
+
+    s_id = request.POST.get("id")
+    s_name = request.POST.get("name")
+    s_class = request.POST.get("class")
+    print(s_id, s_name, s_class)
+    try:
+        if s_id:
+            student = Student.objects.get(StudentID=s_id)
+            print(student)
+        else:
+            student = Student.objects.filter(Class=s_class).get(Name=s_name)
+            print(student)
+
+    except v_models.Student.DoesNotExist:
+        return JsonResponse({"Status": 404})
+
+    
+    # _events = eval(student.Voted).keys()
+    res = {
+        "Status": 200,
+        "StudentID": student.StudentID,
+        "Name": student.Name,
+        "Class": student.Class,
+        # "Voted": _events
+    }
+    print(res)
+    return JsonResponse(res)
 
 @login_required(login_url="/login")
 def index(request):
@@ -49,17 +87,14 @@ def submit(request):
         messages.warning(request, "Invalid student details.")
         return redirect(f"/vote/{event_name}")
 
-    if s_id:
-        try:
+    try:
+        if s_id:
             student = Student.objects.get(StudentID=s_id)
-        except v_models.Student.DoesNotExist:
-            messages.warning(request, "Student not found.")
-            return redirect(f"/vote/{event_name}")
-    else:
-        student = Student.objects.filter(Class=s_class).get(Name=s_name)
-        if not student:
-            messages.warning(request, "Student not found.")
-            return redirect(f"/vote/{event_name}")
+        else:
+            student = Student.objects.filter(Class=s_class).get(Name=s_name)
+    except v_models.Student.DoesNotExist:
+        messages.warning(request, "Student not found.")
+        return redirect(f"/vote/{event_name}")
 
     if student.has_voted(event_id):
         messages.warning(request, "Student has already voted once.")
