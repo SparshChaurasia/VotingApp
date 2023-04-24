@@ -67,22 +67,32 @@
                                 <input class="form-control form-control-lg" id="id" type="text" placeholder="eg- WIDXXXX" id="s_id" name="s_id">
                             </div>
                         </div>
-                        <div class="mt-3">
+                        <div class="mt-5">
                             {% comment %} <button type="button" onclick="prevFormStep()" class="btn btn-secondary">Previous</button> {% endcomment %}
                             <button type="button" onclick="nextFormStep()" class="btn btn-primary btn-lg" id="nextBtn">Next</button>
                         </div>
                     </div>
                     <div class="form-step">
                         <p class="h4 fw-bold mb-5">Verify Student Details</p>
-                        <p class="h5 fw-bold">Name</p>
-                        <p id="nameContainer"></p>
-                        <p class="h5 fw-bold">Class</p>
-                        <p id="classContainer"></p>
-                        <p class="h5 fw-bold">WID</p>
-                        <p id="idContainer"></p>
-                        <div class="mt-3">
+                        <div class="py-3 border border-3 border-dark rounded-3">
+                            <div class="d-flex">
+                                <p class="h5 fw-bold mx-5">Name</p>
+                                <span id="nameContainer">Not Found</span>    
+                            </div>
+                            <hr>
+                            <div class="d-flex">
+                                <p class="h5 fw-bold mx-5">Class</p>
+                                <span id="classContainer">Not Found</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex">
+                                <p class="h5 fw-bold mx-5">WID</p>
+                                <span id="idContainer">Not Found</span>
+                            </div>
+                        </div>
+                        <div class="mt-5">
                             <button type="button" onclick="prevFormStep()" class="btn btn-secondary btn-lg">Previous</button>
-                            <button type="button" onclick="nextFormStep()" class="btn btn-primary btn-lg">Next</button>
+                            <button type="button" onclick="nextFormStep()" class="btn btn-primary btn-lg" id="nextBtn2">Next</button>
                         </div>
                     </div>
                     <div class="form-step">
@@ -100,7 +110,7 @@
                                 {% endfor %}
                             </div>
                         {% endfor %}
-                        <div class="mt-3">
+                        <div class="mt-5">
                             <button type="button" onclick="prevFormStep()" class="btn btn-secondary btn-lg">Previous</button>
                             <button type="submit" class="btn btn-primary btn-lg">Submit</button>
                         </div>

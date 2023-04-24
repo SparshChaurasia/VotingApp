@@ -20,14 +20,12 @@ def get_student_details(request):
     s_id = request.POST.get("id")
     s_name = request.POST.get("name")
     s_class = request.POST.get("class")
-    print(s_id, s_name, s_class)
+
     try:
         if s_id:
             student = Student.objects.get(StudentID=s_id)
-            print(student)
         else:
             student = Student.objects.filter(Class=s_class).get(Name=s_name)
-            print(student)
 
     except v_models.Student.DoesNotExist:
         return JsonResponse({"Status": 404})
@@ -41,7 +39,6 @@ def get_student_details(request):
         "Class": student.Class,
         # "Voted": _events
     }
-    print(res)
     return JsonResponse(res)
 
 @login_required(login_url="/login")
