@@ -4,15 +4,21 @@ from django.db import models
 
 
 class Classes(models.TextChoices):
+    _6A = "6A"
+    _6B = "6B"
+    _7A = "7A"
+    _7B = "7B"
+    _8A = "8A"
+    _8B = "8B"
     _9A = "9A"
     _9B = "9B"
     _10A = "10A"
     _10B = "10B"
     _11A = "11A"
     _11B = "11B"
-    _11C = "11C"
     _12A = "12A"
     _12B = "12B"
+    _12C = "12C"
 
 class Event(models.Model):
     EventID = models.AutoField(primary_key=True)
