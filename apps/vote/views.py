@@ -154,7 +154,12 @@ def event_result(request, event_name):
     categorys = Category.objects.filter(Event=event)
     for category in categorys:
         options = Option.objects.filter(OpitonCategory=category).order_by("-Votes")
-        w = options[0]
+        _w = options[0]
+        w = [_w]
+        for option in options:
+            if option == _w:
+                w.append(option)
+                
         params.update({category: options})
         winners.update({category: w})
 

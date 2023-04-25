@@ -13,7 +13,11 @@
                 {% for category, option in winners.items %}
                     <tr>
                         <td class="fw-bold">{{ category }}</td>
-                        <td>{{ option }}</td>
+                        <td>
+                            {% for o in option %}
+                                &nbsp|&nbsp<span class="badge bg-primary">{{ o }}</span>
+                            {% endfor %}
+                        </td>
                     </tr>
                 {% endfor %}
             </tbody>
