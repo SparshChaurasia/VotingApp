@@ -43,6 +43,11 @@ def get_student_details(request):
 
 @login_required(login_url="/login")
 def index(request):
+    if request.user.is_staff and not request.user.is_superuser:
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Only class teachers have access to voting page.</h4>"""
+        )
     events = Event.objects.all()
 
     params = {
@@ -52,6 +57,11 @@ def index(request):
 
 @login_required(login_url="/login")
 def vote(request, event_name):
+    if request.user.is_staff and not request.user.is_superuser:
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Only class teachers have access to voting page.</h4>"""
+        )
     event = Event.objects.get(EventName=event_name)
     categorys = Category.objects.filter(Event=event)
     options = Option.objects.filter(OptionEvent=event)
@@ -111,7 +121,7 @@ def submit(request):
 
 @login_required(login_url="/login")
 def results(request):
-    if not request.user.is_superuser:
+    if not (request.user.is_staff or request.user.is_superuser):
         return HttpResponse(
             """<h3 style="text-align: center;">403 Forbidden</h3>
             <h4 style="text-align: center;">Missing required permissions.</h4>"""
@@ -131,7 +141,7 @@ def results(request):
 
 @login_required(login_url="/login")
 def event_result(request, event_name):
-    if not request.user.is_superuser:
+    if not (request.user.is_staff or request.user.is_superuser):
         return HttpResponse(
             """<h3 style="text-align: center;">403 Forbidden</h3>
             <h4 style="text-align: center;">Missing required permissions.</h4>"""

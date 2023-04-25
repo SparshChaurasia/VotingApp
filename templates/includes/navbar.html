@@ -20,7 +20,7 @@
           <a class="nav-link" href="/dashboard">DASHBOARD</a>
         </li>
         <li class="nav-item mx-3">
-          <a class="nav-link" href="/vote/">VOTE</a>
+          <a class="nav-link {% if request.user.is_staff and not request.user.is_superuser %}disabled{% endif %}" href="/vote/">VOTE</a>
         </li>
         {% comment %} <li class="nav-item mx-3">
           <a class="nav-link" href="/results/">RESULTS</a>
