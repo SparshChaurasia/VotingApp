@@ -18,8 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 from apps.home.views import dashboard, index
-# from apps.home.views import index, event, dashboard
-from apps.vote.views import event_result, results, vote
+from apps.vote.views import vote
 
 urlpatterns = [
     path("login/", include("apps.login.urls")),
@@ -27,7 +26,6 @@ urlpatterns = [
     path("dashboard", dashboard),
     # path("<str:event_name>", event),
     path("vote/", include("apps.vote.urls")),
-    path("results/", results),
-    path("results/<str:event_name>", event_result),
+    path("results/", include("apps.results.urls")),
     path("admin/", admin.site.urls)
 ]
