@@ -17,8 +17,8 @@ def get_student_details(request):
             <h4 style="text-align: center;">Invalid request method</h4>"""
         ) 
 
-    s_id = request.POST.get("id")
-    s_name = request.POST.get("name")
+    s_id = request.POST.get("id").upper()
+    s_name = request.POST.get("name").upper()
     s_class = request.POST.get("class")
 
     try:
@@ -81,7 +81,7 @@ def submit(request):
             <h4 style="text-align: center;">Invalid request method</h4>"""
         )
 
-    s_id = request.POST.get("s_id")
+    s_id = request.POST.get("s_id").upper()
     s_name = request.POST.get("name").upper()
     s_class = request.POST.get("class")
 
