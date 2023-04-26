@@ -59,9 +59,9 @@ class Student(models.Model):
     def __str__(self):
         return self.Name
 
-    def voted(self, event_id):
+    def voted(self, event_id, options):
         v = eval(self.Voted)
-        v[event_id] = str(datetime.now())
+        v[event_id] = [datetime.now().strftime("%m-%d-%Y_%H:%M:%S"), options]
         self.Voted = str(v)
         self.save()
 

@@ -107,12 +107,14 @@ def submit(request):
         messages.warning(request, "Student has already voted once.")
         return redirect(f"/vote/{event_name}")
 
+    options = [] # List of candidates voted
     for category in categories:
         option_id = request.POST.get(category.CategoryName)
         option = Option.objects.get(OptionID=option_id)
+        options.append(option)
         option.vote()
     
-    student.voted(event_id)
+    student.voted(event_id, options)
     
     messages.success(request, "Successfully voted.")
     return redirect(f"/vote/{event_name}")
