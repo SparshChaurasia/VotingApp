@@ -68,7 +68,10 @@ class Student(models.Model):
 
     def has_voted(self, event_id):
         v = eval(self.Voted)
-        return True if v.get(event_id) else False
+        if event_id in v.keys():
+            return True 
+        else: 
+            return False
 
 # class Voted(models.Model):
 #     StudentVote = models.ForeignKey(Student, models.CASCADE)

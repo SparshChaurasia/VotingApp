@@ -21,7 +21,8 @@ def get_candidate_report(request):
         ) 
     timestamp = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
     event_id = request.POST.get("event_id")
-    options = Option.objects.filter(OptionEvent=event_id)
+    event = Event.objects.get(EventID=event_id)
+    options = Option.objects.filter(OptionEvent=event)
 
     response = HttpResponse(
         content_type="text/csv",
@@ -44,9 +45,8 @@ def get_class_report(request):
 
     timestamp = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
     s_class = request.POST.get("class")
-    event_id = request.POST.get("event_id")
+    event_id = int(request.POST.get("event_id"))
     students = Student.objects.filter(Class=s_class)
-    
 
     response = HttpResponse(
         content_type="text/csv",
@@ -55,7 +55,8 @@ def get_class_report(request):
     writer = csv.writer(response)
     writer.writerow(["StudentID", "Name", "Class", "Voted"])
     for student in students:
-        writer.writerow([student.StudentID, student.Name, student.Class, student.has_voted(event_id)])
+        voted = student.has_voted(event_id)
+        writer.writerow([student.StudentID, student.Name, student.Class, voted])
 
     return response
 
@@ -98,7 +99,7 @@ def event_result(request, event_name):
         _w = options[0]
         w = [_w]
         for option in options:
-            if option == _w:
+            if option.Votes == _w.Votes and not option.OptionID == _w.OptionID:
                 w.append(option)
                 
         params.update({category: options})
