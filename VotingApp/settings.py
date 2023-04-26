@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "apps.home",
-    "apps.vote"
+    "apps.vote",
+    "apps.results"
 ]
 
 MIDDLEWARE = [

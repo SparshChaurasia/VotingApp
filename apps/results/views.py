@@ -1,7 +1,63 @@
+import csv
+import os
+from datetime import datetime
+from pathlib import Path
+
 from django.contrib.auth.decorators import login_required
+from django.http import FileResponse
 from django.shortcuts import HttpResponse, redirect, render
+from django.views.decorators.csrf import csrf_exempt
 
 from apps.vote.models import Category, Event, Option, Student
+
+BASE_DIR = Path(__file__).resolve().parent
+
+
+def get_candidate_report(request):
+    if request.method != "POST":
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Invalid request method.</h4>"""
+        ) 
+    timestamp = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
+    event_id = request.POST.get("event_id")
+    options = Option.objects.filter(OptionEvent=event_id)
+
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={"Content-Disposition": f'attachment; filename="candidate_report_{timestamp}.csv"'},
+    )
+    writer = csv.writer(response)
+    writer.writerow(["OptionID", "OpitonCategory", "OptionName", "Votes"])
+    for option in options:
+        writer.writerow([option.OptionID, option.OpitonCategory, option.OptionName, option.Votes])
+
+    return response
+
+
+def get_class_report(request):
+    if request.method != "POST":
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Invalid request method.</h4>"""
+        ) 
+
+    timestamp = datetime.now().strftime("%m-%d-%Y_%H-%M-%S")
+    s_class = request.POST.get("class")
+    event_id = request.POST.get("event_id")
+    students = Student.objects.filter(Class=s_class)
+    
+
+    response = HttpResponse(
+        content_type="text/csv",
+        headers={"Content-Disposition": f'attachment; filename="class_{s_class}_report_{timestamp}.csv"'},
+    )
+    writer = csv.writer(response)
+    writer.writerow(["StudentID", "Name", "Class", "Voted"])
+    for student in students:
+        writer.writerow([student.StudentID, student.Name, student.Class, student.has_voted(event_id)])
+
+    return response
 
 
 @login_required(login_url="/login")

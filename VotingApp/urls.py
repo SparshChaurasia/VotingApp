@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 from apps.home.views import dashboard, index
+# from apps.home.views import index, event, dashboard
 from apps.vote.views import vote
 
 urlpatterns = [
