@@ -1,0 +1,33 @@
+{% extends 'bases/base.html' %}
+{% load static %}
+{% block title %}Vote{% endblock title %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock stylesheets %}
+{% block javascript %}
+<script src="{% static 'js/form.js' %}" defer></script>
+{% endblock javascript %}
+{% block content %}
+<div class="page">
+    <div class="container" style="margin: 0;">
+        <div class="row">
+            <div class="col form__image">
+                <div class="form__image--container">
+                    <img src="{% static 'images/Voting-bro.svg' %}" alt="voting illustration">
+                </div>  
+            </div>
+            <div class="col">
+                <label for="event_name" class="form-label h3 fw-bold">(Staff Portal) Select Event</label>
+                <div class="list-group">
+                    {% for event in events %}
+                        <a href="/staff_vote/{{ event.EventName }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true">
+                          <span>{{ event.EventName }}</span> 
+                          <span class="badge bg-primary rounded-pill">{{ event.Date }}</span>
+                        </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

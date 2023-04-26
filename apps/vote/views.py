@@ -55,6 +55,21 @@ def index(request):
     }
     return render(request, "vote/vote.html", params)    
 
+
+def staff_index(request):
+    if request.user.is_staff and not request.user.is_superuser:
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Only class teachers have access to voting page.</h4>"""
+        )
+    events = Event.objects.all()
+
+    params = {
+        "events": events
+    }
+    return render(request, "vote/staff_vote.html", params)    
+
+
 @login_required(login_url="/login")
 def vote(request, event_name):
     if request.user.is_staff and not request.user.is_superuser:
@@ -72,6 +87,26 @@ def vote(request, event_name):
         "options": options
     }
     return render(request, "vote/form.html", params)
+
+
+@login_required(login_url="/login")
+def staff_vote(request, event_name):
+    if request.user.is_staff and not request.user.is_superuser:
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Only teachers have access to voting page.</h4>"""
+        )
+    event = Event.objects.get(EventName=event_name)
+    categorys = Category.objects.filter(Event=event)
+    options = Option.objects.filter(OptionEvent=event)
+    
+    params = {
+        "event": event,
+        "categorys": categorys,
+        "options": options
+    }
+    return render(request, "vote/staff_form.html", params)
+
 
 @login_required(login_url="/login")
 def submit(request):
@@ -111,10 +146,57 @@ def submit(request):
     for category in categories:
         option_id = request.POST.get(category.CategoryName)
         option = Option.objects.get(OptionID=option_id)
-        options.append(option)
+        options.append(option.OptionID)
         option.vote()
     
     student.voted(event_id, options)
     
     messages.success(request, "Successfully voted.")
     return redirect(f"/vote/{event_name}")
+
+
+@login_required(login_url="/login")
+def staff_submit(request):
+    if request.method != "POST":
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Invalid request method</h4>"""
+        )
+
+    s_id = request.POST.get("s_id").upper()
+    s_name = request.POST.get("name").upper()
+    s_class = request.POST.get("class")
+
+    event_id = int(request.POST.get("event_id"))
+    event = Event.objects.get(EventID=event_id)
+    event_name = event.EventName
+    categories = Category.objects.filter(Event=event)
+
+    if not s_id or all([s_name, s_class]):
+        messages.warning(request, "Invalid staff member details.")
+        return redirect(f"/staff_vote/{event_name}")
+
+    try:
+        if s_id:
+            student = Student.objects.get(StudentID=s_id)
+        else:
+            student = Student.objects.filter(Class=s_class).get(Name=s_name)
+    except v_models.Student.DoesNotExist:
+        messages.warning(request, "Staff member not found.")
+        return redirect(f"/staff_vote/{event_name}")
+
+    if student.has_voted(event_id):
+        messages.warning(request, "Staff member has already voted once.")
+        return redirect(f"/staff_vote/{event_name}")
+
+    options = [] # List of candidates voted
+    for category in categories:
+        option_id = request.POST.get(category.CategoryName)
+        option = Option.objects.get(OptionID=option_id)
+        options.append(option.OptionID)
+        option.vote()
+    
+    student.voted(event_id, options)
+    
+    messages.success(request, "Successfully voted.")
+    return redirect(f"/staff_vote/{event_name}")

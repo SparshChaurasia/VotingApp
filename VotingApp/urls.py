@@ -19,7 +19,7 @@ from django.urls import include, path
 
 from apps.home.views import dashboard, index
 # from apps.home.views import index, event, dashboard
-from apps.vote.views import vote
+from apps.vote.views import vote, staff_index, staff_vote, staff_submit
 
 urlpatterns = [
     path("login/", include("apps.login.urls")),
@@ -27,6 +27,9 @@ urlpatterns = [
     path("dashboard", dashboard),
     # path("<str:event_name>", event),
     path("vote/", include("apps.vote.urls")),
+    path("staff_vote/", staff_index),
+    path("staff_vote/uwfbAKykNtbryLMXAXuV", staff_submit, name="staff_submit"),
+    path("staff_vote/<str:event_name>", staff_vote),
     path("results/", include("apps.results.urls")),
     path("admin/", admin.site.urls)
 ]
