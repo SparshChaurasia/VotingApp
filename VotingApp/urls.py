@@ -21,6 +21,10 @@ from apps.home.views import dashboard, index
 # from apps.home.views import index, event, dashboard
 from apps.vote.views import vote, staff_index, staff_vote, staff_submit
 
+admin.site.site_header  =  "Voting App Administration"  
+admin.site.site_title  =  "Voting App Administration"
+admin.site.index_title  =  "Site Administration"
+
 urlpatterns = [
     path("login/", include("apps.login.urls")),
     path("", index),

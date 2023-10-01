@@ -8,14 +8,15 @@
         <h4 class="text-muted">Voting Portal</h4>
       </div>
     </div>
+    {% if user.is_authenticated %}
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item mx-3">
+        {% comment %} <li class="nav-item mx-3">
           <a class="nav-link" href="/">HOME</a>
-        </li>
+        </li> {% endcomment %}
         <li class="nav-item mx-3">
           <a class="nav-link" href="/dashboard">DASHBOARD</a>
         </li>
@@ -49,5 +50,8 @@
         <a href="{% url 'logout' %}" class="btn btn-outline-dark">Logout <i class="fa-solid fa-right-from-bracket"></i></a>
       </div>
     </div>
+    {% else %}
+      <a href="/login" class="btn btn-outline-dark">Login <i class="fa-solid fa-right-from-bracket"></i></a>
+    {% endif %}
   </div>
 </nav>
