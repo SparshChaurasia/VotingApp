@@ -34,7 +34,7 @@
                         <div>
                             <div>
                                 <label for="class" class="form-label fw-bold">Select Class</label>
-                                <select name="class" id="class" class="form-select form-select-lg mb-3">
+                                <select name="class" id="class" class="form-select form-select-lg mb-3" required>
                                     <option value="">Select</option>
                                     <option value="6A">6A</option>
                                     <option value="6B">6B</option>
@@ -53,7 +53,7 @@
                                     <option value="12C">12C</option>
                                 </select>
                                 <label for="name" class="form-label fw-bold">Student Name</label>
-                                <input class="form-control form-control-lg" list="datalistOptions" id="name" name="name" placeholder="Type to search...">
+                                <input class="form-control form-control-lg" list="datalistOptions" id="name" name="name" placeholder="Type to search..." required>
                                 <datalist id="datalistOptions">
                                     {% comment %} TODO: fetch student names from database asynchronously after class is selected {% endcomment %}
                                     <option value="San Francisco">
@@ -70,7 +70,7 @@
                             </div>
                             <div>
                                 <label for="s_id" class="form-label fw-bold">Enter Student Id</label>
-                                <input class="form-control form-control-lg" id="id" type="text" placeholder="eg- WIDXXXX" id="s_id" name="s_id">
+                                <input class="form-control form-control-lg" id="id" type="text" placeholder="eg- WIDXXXX" id="s_id" name="s_id" required>
                             </div>
                         </div>
                         <div class="mt-5">
@@ -109,7 +109,7 @@
                                 {% for option in options %}
                                     {% if option.OpitonCategory == category %}
                                         <div class="form-check form__category">
-                                            <input class="form-check-input" type="radio" name="{{ category.CategoryName }}" value="{{ option.OptionID }}">
+                                            <input class="form-check-input" type="radio" name="{{ category.CategoryName }}" value="{{ option.OptionID }}" required>
                                             <label class="form-check-label">{{ option.OptionName }}</label>
                                         </div>
                                     {% endif %}

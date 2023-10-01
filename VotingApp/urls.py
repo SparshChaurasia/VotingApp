@@ -24,7 +24,7 @@ from apps.vote.views import vote, staff_index, staff_vote, staff_submit
 urlpatterns = [
     path("login/", include("apps.login.urls")),
     path("", index),
-    path("dashboard", dashboard),
+    path("dashboard/", dashboard),
     # path("<str:event_name>", event),
     path("vote/", include("apps.vote.urls")),
     path("staff_vote/", staff_index),
