@@ -17,10 +17,10 @@
                 </div>  
             </div>
             <div class="col">
-                <label for="event_name" class="form-label h3 fw-bold">(Staff Portal) Select Event</label>
+                <label for="event_name" class="form-label h3 fw-bold">Select Event</label>
                 <div class="list-group">
                     {% for event in events %}
-                        <a href="/staff_vote/{{ event.EventName }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true">
+                        <a href="/vote/visitor/{{ event.EventName }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center" aria-current="true">
                           <span>{{ event.EventName }}</span> 
                           <span class="badge bg-primary rounded-pill">{{ event.Date }}</span>
                         </a>

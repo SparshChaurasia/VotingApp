@@ -1,0 +1,83 @@
+{% extends "bases/base.html" %}
+{% load static %}
+{% block title %}Vote (visitors){% endblock title %}
+{% block stylesheets %}
+<link rel="stylesheet" href="{% static 'css/form.css' %}">
+{% endblock stylesheets %}
+{% block javascript %}
+<script src="{% static 'js/form.js' %}" defer></script>
+{% endblock javascript %}
+{% block content %}
+<div class="page">
+    {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show position-absolute end-0 w-100" role="alert">
+            <i class="fa-sharp fa-solid fa-circle-exclamation"></i> {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    {% endif %}
+    <div class="container" style="margin: 0;">
+        <div class="row">
+            <div class="col form__image">
+                <div class="form__image--container">
+                    <img src="{% static 'images/Voting-bro.svg' %}" alt="voting illustration">
+                </div>  
+            </div>
+            <div class="col">
+                <form action="{% url 'submit' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="event_id" value={{ event.EventID }}>
+                    <p class="h3 fw-bold mb-5">{{ event.EventName }}</p>
+                    <div class="form-step form-step-active">
+                        <div>
+                            <p class="h4 fw-bold mb-3">Add User Details</p>
+                        </div>
+                        <div>                            
+                            <div>
+                                <label for="class" class="form-label fw-bold">Status</label>
+                                <select name="class" id="class" class="form-select form-select-lg mb-3" required>
+                                    <option value="BB">Visitor</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="name" class="form-label fw-bold">Name</label>
+                                <input class="form-control form-control-lg" id="name" name="name" placeholder="Enter name" required>
+                            </div>
+                            <div>
+                                <label for="s_id" class="form-label fw-bold">Phone Number</label>
+                                <input class="form-control form-control-lg" id="id" type="text" id="s_id" name="s_id" placeholder="Enter phone number" required>
+                            </div>
+                        </div>
+                        <div class="mt-5 d-flex justify-content-between">
+                            {% comment %} <button type="button" onclick="prevFormStep()" class="btn btn-secondary">Previous</button> {% endcomment %}
+                            {% comment %} <button type="button" class="btn btn-outline-primary btn-lg" id="nextBtn">Create New User</button> {% endcomment %}
+                            <button type="button" onclick="nextFormStep()" class="btn btn-primary btn-lg" id="nextBtn">Next</button>
+                        </div>
+                    </div>
+                    <div class="form-step">
+                        {% for category in categorys %}
+                            <div class="form__category-wrapper">
+                                <p class="h4 fw-bold">{{ category.CategoryName }}</p>
+                                <hr>
+                                {% for option in options %}
+                                    {% if option.OpitonCategory == category %}
+                                        <div class="form-check form__category">
+                                            <input class="form-check-input" type="radio" name="{{ category.CategoryName }}" value="{{ option.OptionID }}" required>
+                                            <label class="form-check-label">{{ option.OptionName }}</label>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                        {% endfor %}
+                        <div class="mt-5">
+                            <button type="button" onclick="prevFormStep()" class="btn btn-secondary btn-lg">Previous</button>
+                            <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

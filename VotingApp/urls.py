@@ -17,9 +17,8 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
-from apps.home.views import dashboard, index
+import apps.home.views as home_views
 # from apps.home.views import index, event, dashboard
-from apps.vote.views import vote, staff_index, staff_vote, staff_submit
 
 admin.site.site_header  =  "Voting App Administration"  
 admin.site.site_title  =  "Voting App Administration"
@@ -27,13 +26,10 @@ admin.site.index_title  =  "Site Administration"
 
 urlpatterns = [
     path("login/", include("apps.login.urls")),
-    path("", index),
-    path("dashboard/", dashboard),
+    path("", home_views.index),
+    path("dashboard/", home_views.dashboard),
     # path("<str:event_name>", event),
     path("vote/", include("apps.vote.urls")),
-    path("staff_vote/", staff_index),
-    path("staff_vote/uwfbAKykNtbryLMXAXuV", staff_submit, name="staff_submit"),
-    path("staff_vote/<str:event_name>", staff_vote),
     path("results/", include("apps.results.urls")),
     path("admin/", admin.site.urls)
 ]

@@ -8,7 +8,7 @@ from apps.vote import models as v_models
 
 from .models import Category, Event, Option, Student
 
-
+# API Functions
 @csrf_exempt
 def get_student_details(request):
     if request.method != "POST":
@@ -41,42 +41,37 @@ def get_student_details(request):
     }
     return JsonResponse(res)
 
+
 @login_required(login_url="/login")
 def index(request):
-    if request.user.is_staff and not request.user.is_superuser:
-        return HttpResponse(
-            """<h3 style="text-align: center;">403 Forbidden</h3>
-            <h4 style="text-align: center;">Only class teachers have access to voting page.</h4>"""
-        )
+    return render(request, "vote/vote.html")
+
+@login_required(login_url="/login")
+def category_index(request, category):
+    # if request.user.is_staff and not request.user.is_superuser:
+    #     return HttpResponse(
+    #         """<h3 style="text-align: center;">403 Forbidden</h3>
+    #         <h4 style="text-align: center;">Only class teachers have access to voting page.</h4>"""
+    #     )
+    # TODO: Add category based validation
+
     events = Event.objects.all()
 
     params = {
         "events": events
     }
-    return render(request, "vote/vote.html", params)    
-
-
-def staff_index(request):
-    if request.user.is_staff and not request.user.is_superuser:
-        return HttpResponse(
-            """<h3 style="text-align: center;">403 Forbidden</h3>
-            <h4 style="text-align: center;">Only class teachers have access to voting page.</h4>"""
-        )
-    events = Event.objects.all()
-
-    params = {
-        "events": events
-    }
-    return render(request, "vote/staff_vote.html", params)    
+    return render(request, f"vote/{category}/{category}_vote.html", params)    
 
 
 @login_required(login_url="/login")
-def vote(request, event_name):
-    if request.user.is_staff and not request.user.is_superuser:
-        return HttpResponse(
-            """<h3 style="text-align: center;">403 Forbidden</h3>
-            <h4 style="text-align: center;">Only class teachers have access to voting page.</h4>"""
-        )
+def vote(request, category, event_name):
+    # if request.user.is_staff and not request.user.is_superuser:
+    #     return HttpResponse(
+    #         """<h3 style="text-align: center;">403 Forbidden</h3>
+    #         <h4 style="text-align: center;">Only class teachers have access to voting page.</h4>"""
+    #     )
+    # TODO: Add category based validation
+       
     event = Event.objects.get(EventName=event_name)
     categorys = Category.objects.filter(Event=event)
     options = Option.objects.filter(OptionEvent=event)
@@ -86,26 +81,26 @@ def vote(request, event_name):
         "categorys": categorys,
         "options": options
     }
-    return render(request, "vote/form.html", params)
+    return render(request, f"vote/{category}/{category}_form.html", params)
 
 
-@login_required(login_url="/login")
-def staff_vote(request, event_name):
-    if request.user.is_staff and not request.user.is_superuser:
-        return HttpResponse(
-            """<h3 style="text-align: center;">403 Forbidden</h3>
-            <h4 style="text-align: center;">Only teachers have access to voting page.</h4>"""
-        )
-    event = Event.objects.get(EventName=event_name)
-    categorys = Category.objects.filter(Event=event)
-    options = Option.objects.filter(OptionEvent=event)
+# @login_required(login_url="/login")
+# def staff_vote(request, event_name):
+#     if request.user.is_staff and not request.user.is_superuser:
+#         return HttpResponse(
+#             """<h3 style="text-align: center;">403 Forbidden</h3>
+#             <h4 style="text-align: center;">Only teachers have access to voting page.</h4>"""
+#         )
+#     event = Event.objects.get(EventName=event_name)
+#     categorys = Category.objects.filter(Event=event)
+#     options = Option.objects.filter(OptionEvent=event)
     
-    params = {
-        "event": event,
-        "categorys": categorys,
-        "options": options
-    }
-    return render(request, "vote/staff_form.html", params)
+#     params = {
+#         "event": event,
+#         "categorys": categorys,
+#         "options": options
+#     }
+#     return render(request, "vote/staff_form.html", params)
 
 
 @login_required(login_url="/login")
@@ -200,3 +195,16 @@ def staff_submit(request):
     
     messages.success(request, "Successfully voted.")
     return redirect(f"/staff_vote/{event_name}")
+
+def visitors_vote(request):
+    return render("vote/visitors_vote.html")
+
+def visitors_submit(request, event_name):
+    if request.method != "POST":
+        return HttpResponse(
+            """<h3 style="text-align: center;">403 Forbidden</h3>
+            <h4 style="text-align: center;">Invalid request method</h4>"""
+        )
+
+    
+    return redirect(f"/visitors_vote/{event_name}")
