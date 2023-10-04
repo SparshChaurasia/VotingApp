@@ -37,7 +37,7 @@
                         <div>                            
                             <div>
                                 <label for="class" class="form-label fw-bold">Select Class</label>
-                                <select name="class" id="class" class="form-select form-select-lg mb-3" required>
+                                <select name="class" id="class" class="form-select form-select-lg mb-3">
                                     <option value="">Select</option>
                                     <option value="6A">6A</option>
                                     <option value="6B">6B</option>
@@ -56,7 +56,7 @@
                                     <option value="12C">12C</option>
                                 </select>
                                 <label for="name" class="form-label fw-bold">Student Name</label>
-                                <input class="form-control form-control-lg" list="datalistOptions" id="name" name="name" placeholder="Type to search..." required>
+                                <input class="form-control form-control-lg" list="datalistOptions" id="name" name="name" placeholder="Type to search...">
                                 <datalist id="datalistOptions">
                                     {% comment %} TODO: fetch student names from database asynchronously after class is selected {% endcomment %}
                                     <option value="San Francisco">
@@ -73,7 +73,7 @@
                             </div>
                             <div>
                                 <label for="s_id" class="form-label fw-bold">Enter Student Id</label>
-                                <input class="form-control form-control-lg" id="id" type="text" placeholder="eg- WIDXXXX" id="s_id" name="s_id" required>
+                                <input class="form-control form-control-lg" id="id" type="text" placeholder="eg- WIDXXXX" id="s_id" name="s_id">
                             </div>
                         </div>
                         <div class="mt-5 d-flex justify-content-between">

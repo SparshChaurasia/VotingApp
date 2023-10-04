@@ -119,10 +119,10 @@ def submit(request):
     event = Event.objects.get(EventID=event_id)
     event_name = event.EventName
     categories = Category.objects.filter(Event=event)
-
+    print("here")
     if not s_id or all([s_name, s_class]):
         messages.warning(request, "Invalid student details.")
-        return redirect(f"/vote/{event_name}")
+        return redirect(f"/vote/student/{event_name}")
 
     try:
         if s_id:
@@ -131,11 +131,11 @@ def submit(request):
             student = Student.objects.filter(Class=s_class).get(Name=s_name)
     except v_models.Student.DoesNotExist:
         messages.warning(request, "Student not found.")
-        return redirect(f"/vote/{event_name}")
+        return redirect(f"/vote/student/{event_name}")
 
     if student.has_voted(event_id):
         messages.warning(request, "Student has already voted once.")
-        return redirect(f"/vote/{event_name}")
+        return redirect(f"/vote/student/{event_name}")
 
     options = [] # List of candidates voted
     for category in categories:
@@ -147,7 +147,7 @@ def submit(request):
     student.voted(event_id, options)
     
     messages.success(request, "Successfully voted.")
-    return redirect(f"/vote/{event_name}")
+    return redirect(f"/vote/student/{event_name}")
 
 
 @login_required(login_url="/login")
@@ -169,7 +169,7 @@ def staff_submit(request):
 
     if not s_id or all([s_name, s_class]):
         messages.warning(request, "Invalid staff member details.")
-        return redirect(f"/staff_vote/{event_name}")
+        return redirect(f"/vote/staff/{event_name}")
 
     try:
         if s_id:
@@ -178,11 +178,11 @@ def staff_submit(request):
             student = Student.objects.filter(Class=s_class).get(Name=s_name)
     except v_models.Student.DoesNotExist:
         messages.warning(request, "Staff member not found.")
-        return redirect(f"/staff_vote/{event_name}")
+        return redirect(f"/vote/staff/{event_name}")
 
     if student.has_voted(event_id):
         messages.warning(request, "Staff member has already voted once.")
-        return redirect(f"/staff_vote/{event_name}")
+        return redirect(f"/vote/staff/{event_name}")
 
     options = [] # List of candidates voted
     for category in categories:
@@ -194,17 +194,41 @@ def staff_submit(request):
     student.voted(event_id, options)
     
     messages.success(request, "Successfully voted.")
-    return redirect(f"/staff_vote/{event_name}")
+    return redirect(f"/vote/staff/{event_name}")
 
-def visitors_vote(request):
-    return render("vote/visitors_vote.html")
 
-def visitors_submit(request, event_name):
+def visitor_submit(request):
     if request.method != "POST":
         return HttpResponse(
             """<h3 style="text-align: center;">403 Forbidden</h3>
             <h4 style="text-align: center;">Invalid request method</h4>"""
         )
 
+    s_id = request.POST.get("s_id").upper()
+    s_name = request.POST.get("name").upper()
+    s_class = request.POST.get("class")
+
+    event_id = int(request.POST.get("event_id"))
+    event = Event.objects.get(EventID=event_id)
+    event_name = event.EventName
+    categories = Category.objects.filter(Event=event)
+
+    if not all([s_name, s_class, s_id]):
+        messages.warning(request, "Enter complete details.")
+        return redirect(f"/vote/visitor/{event_name}")
+
+    student = Student(StudentID=s_id, Name=s_name, Class=s_class)
+
+    options = [] # List of candidates voted
+    for category in categories:
+        option_id = request.POST.get(category.CategoryName)
+        option = Option.objects.get(OptionID=option_id)
+        options.append(option.OptionID)
+        option.vote()
     
-    return redirect(f"/visitors_vote/{event_name}")
+    student.voted(event_id, options)
+    
+    messages.success(request, "Successfully voted.")
+    return redirect(f"/vote/visitor/{event_name}")
+
+    

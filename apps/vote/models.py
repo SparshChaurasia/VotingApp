@@ -5,6 +5,7 @@ from django.db import models
 
 class Classes(models.TextChoices):
     _AA = "AA"
+    _BB = "BB"
     _6A = "6A"
     _6B = "6B"
     _7A = "7A"

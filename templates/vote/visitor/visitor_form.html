@@ -25,7 +25,7 @@
                 </div>  
             </div>
             <div class="col">
-                <form action="{% url 'submit' %}" method="POST">
+                <form action="{% url 'visitor_submit' %}" method="POST">
                     {% csrf_token %}
                     <input type="hidden" name="event_id" value={{ event.EventID }}>
                     <p class="h3 fw-bold mb-5">{{ event.EventName }}</p>
