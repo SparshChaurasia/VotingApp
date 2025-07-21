@@ -43,6 +43,7 @@ class Option(models.Model):
     OptionEvent = models.ForeignKey(Event, on_delete=models.CASCADE)
     OpitonCategory = models.ForeignKey(Category, on_delete=models.CASCADE)
     OptionName = models.TextField()
+    OptionImage = models.ImageField(upload_to="OptionImages", blank=True, null=True)
     Votes = models.IntegerField(default=0)
 
     def vote(self):

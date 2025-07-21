@@ -108,11 +108,12 @@
                     <div class="form-step">
                         {% for category in categorys %}
                             <div class="form__category-wrapper">
-                                <p class="h4 fw-bold">{{ category.CategoryName }}</p>
+                                <p class="h4 fw-bold">{{ category.CategoryName }}</p>   
                                 <hr>
                                 {% for option in options %}
                                     {% if option.OpitonCategory == category %}
                                         <div class="form-check form__category">
+                                            <img style="width: 7rem;" src="{% static "/media/" %}{{ option.OptionImage }}">
                                             <input class="form-check-input" type="radio" name="{{ category.CategoryName }}" value="{{ option.OptionID }}" required>
                                             <label class="form-check-label">{{ option.OptionName }}</label>
                                         </div>
