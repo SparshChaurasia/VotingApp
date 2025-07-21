@@ -72,7 +72,7 @@
                         {% for event, values in params.items %}
                             <div class="card">
                             <div class="card-body">
-                                <a href="/vote/{{ event.EventName }}" class="card-title text-decoration-none" aria-current="true">
+                                <a href="/vote/" class="card-title text-decoration-none" aria-current="true">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span>{{ event.EventName }}</span> 
                                     <span class="badge bg-primary rounded-pill">Ongoing</span>
@@ -137,7 +137,7 @@
                 </div> {% endcomment %}
             </div>
             <div class="col pb-5">
-                <div>
+                {% comment %} <div>
                     <p class="h4 fw-bold">Tasks</p>
                     <div class="list-group">
                         <label class="list-group-item">
@@ -161,7 +161,7 @@
                             Fifth task
                         </label>
                     </div>
-                </div>
+                </div> {% endcomment %}
                 <img class="dashboard__image" src="{% static 'images/pro1.png' %}" alt="placeholder image">
             </div>
         </div>

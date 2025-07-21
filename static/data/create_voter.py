@@ -2,7 +2,7 @@ import csv
 
 from apps.vote.models import Student
 
-with open("./StudentsList.csv", mode="r") as f:
+with open("./static/data/StudentsList.csv", mode="r") as f:
     csv_file = csv.reader(f)
 
     for line in csv_file:
